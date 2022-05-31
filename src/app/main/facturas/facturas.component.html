@@ -1,0 +1,53 @@
+<div class="main">
+    <div fxLayout="column" fxLayoutAlign="space-around">
+        <div fxLayout="row" fxLayoutAlign="space-between center" FxFlex="100">
+            <h2>Facturas Registradas</h2>
+            <dx-button
+                icon="plus"
+                type="success"
+                text="Crear Factura"
+                (onClick)="isPopupVisible = !isPopupVisible">
+            </dx-button>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="center center" FxFlex="100">
+           <dx-data-grid class="dx-card wide-card" [dataSource]="dataSource" [columnAutoWidth]="true" [columnHidingEnabled]="true">
+            <dxo-filter-row [visible]="true"></dxo-filter-row>
+            <dxo-paging [pageSize]="10"></dxo-paging>
+            <dxo-pager [showPageSizeSelector]="false" [showInfo]="true"></dxo-pager>
+           
+            <dxi-column 
+                dataField="Numero_Factura"
+                caption="#ID"
+                width="auto">
+            </dxi-column>
+
+            <dxi-column 
+                dataField="Cliente">
+            </dxi-column>
+
+            <dxi-column
+                dataField="Fecha"
+                caption="Fecha Creación"
+                width="250"
+                dataType="date">
+            </dxi-column>
+
+            <dxi-column
+                dataField="Valor"
+                caption="Valor Total"
+                width="100"
+                dataType="number"
+                format="currency">
+            </dxi-column>
+
+            <dxi-column dataField="Acciones" type="buttons" width="auto">
+                <dxi-button icon="trash" [onClick]="dxiDelete"></dxi-button>
+                <dxi-button icon="edit" [onClick]="dxiEdit"></dxi-button>
+               </dxi-column>
+           </dx-data-grid>
+        </div>
+    </div>
+
+    <app-popup-select-cliente [isPopupVisible]="isPopupVisible"> </app-popup-select-cliente>
+</div>
+

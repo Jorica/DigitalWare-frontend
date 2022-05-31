@@ -1,0 +1,45 @@
+<dx-popup 
+        [visible]="isPopupVisible" 
+        [height]="'30%'"
+        [width]="'50%'" 
+        (onHiding)="isPopupVisible = false" 
+        title="Clientes Registrados">
+
+        <div fxLayout="column" fxLayoutalign="space-around" *ngIf="clientes">
+
+            <div class="dx-field" >
+                <div class="dx-field-label">Consultar Cliente:</div>
+                <div class="dx-field-value">
+                  <dx-autocomplete
+                    placeholder="Nombre, Apellido, Documento"
+                    [showClearButton]="true"
+                    [dataSource]="listClientes"
+                    (onSelectionChanged)="cliente($event)"
+                    [searchExpr]="['nombre','documento']"
+                    valueExpr="nombre">
+                  </dx-autocomplete>
+                </div>
+            </div>
+            <br>
+            <div fxFlex="100" fxLayoutAlign="center start">
+
+                <dx-button type="success" (onClick)="gestionar()" [height]="50" [width]="150" [disabled]="btnCrarFactura">
+
+                    <div *dxTemplate="let data of 'content'">
+
+                        <dx-load-indicator
+                          class="button-indicator"
+                          [visible]="enviando">
+                        </dx-load-indicator>
+
+                        <span class="dx-button-text">{{ textBoton }}</span>
+
+                    </div>
+
+                </dx-button>
+               
+
+            </div>
+          
+        </div>
+    </dx-popup>

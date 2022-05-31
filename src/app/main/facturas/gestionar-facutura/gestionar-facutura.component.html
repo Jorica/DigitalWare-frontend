@@ -1,0 +1,144 @@
+<div fxLayout="column" FlefxLayoutAlign="start" >
+    <div fxLayoutAlign="start start" fxFlex="100">
+        <div fxLayoutAlign="start start" fxFlex="43">
+            <dx-button text="Lista Facturas" (onClick)="regresar()" icon="revert" type="success"></dx-button>
+        </div>
+        <div fxLayoutAlign="start start" fxFlex="57">
+            <h2><strong>DIGITALWARE</strong></h2>
+        </div>
+    </div>
+    <div class="main" fxLayout="column" fxLayoutAlign="space-around" *ngIf="encabezado">
+        <div fxLayout="column" fxLayoutAlign="space-around" fxFlex="100" class="Encabezado">
+            <div fxLayoutAlign="center start" fxFlex="100">
+                <span><strong>FACTURA DE VENTA</strong></span>
+            </div>
+            <hr style="width: 100%; ">
+            <div fxLayoutAlign="space-between start" fxFlex="100">
+                <div fxLayoutAlign="start start" fxFlex="50">
+                    <span><strong>Número:</strong>{{encabezado.numeroFactura}}</span>
+                </div>
+                <div fxLayoutAlign="end start" fxFlex="50">
+                    <span><strong>Fecha:</strong> {{encabezado.fechaFactura | date:'medium'}}</span>
+                </div>
+            </div>
+    
+            <div fxLayoutAlign="space-between start" fxFlex="100">
+                <span><strong>Cliente:</strong> {{encabezado.nombre + " " +encabezado.apellido}}</span>
+            </div>
+    
+            <div fxLayoutAlign="space-between start" fxFlex="100">
+                <div fxLayoutAlign="start start" fxFlex="50">
+                    <span><strong>Documento:</strong>{{encabezado.dni}}</span>
+                </div>
+                <div fxLayoutAlign="end start" fxFlex="50">
+                    <span><strong>Edad:</strong> {{encabezado.edad + " Años"}}</span>
+                </div>
+            </div>
+    
+            <div fxLayoutAlign="space-between start" fxFlex="100">
+                <span><strong>Direccion:</strong> Carrera 9 # 7 - 67 Barrio Maria Auxiliadora</span>
+            </div>
+            <br>
+            <div fxLayoutAlign="end center" fxFlex="100">
+                <dx-button (onClick)="editar()" icon="edit" text="Editar" type="default"></dx-button>
+            </div>
+        </div>
+       
+        <div fxLayout="column" fxLayoutAlign="space-around" fxFlex="100" class="Encabezado">
+            <div fxLayoutAlign="center center" fxFlex="100">
+                <span><strong>LISTA DE PRODUCTOS</strong></span>
+            </div>
+            <hr style="width: 100%;">
+            <br>
+            <div fxLayoutAlign="space-between center" fxFlex="100">
+                <div fxLayoutAlign="start center" fxFlex="70">
+                    <div class="dx-field-value" fxFlex="95">
+                        <dx-autocomplete
+                          placeholder="Nombre del Producto"
+                          valueExpr="nombre"
+                          [dataSource]="listaProductos"
+                          [(value)]="nombreProducto"
+                          (onItemClick)="productoSeleccionado($event)"
+                        >
+                          <div *dxTemplate="let item of 'item'">
+                            <span>{{ item.nombre }} (${{ item.precioVenta | number}}) (Stock {{ item.existencia}})</span>
+                          </div>
+                        </dx-autocomplete>
+                      </div>
+                </div>
+                <div class="dx-field" fxLayoutAlign="end center" fxFlex="30">
+                    <div class="dx-field-label">Cantidad</div>
+                    <div class="dx-field-value" fxFlex="100">
+                      <dx-number-box
+                        [max]="maxCantidad"
+                        [disabled]="BlockCantidad"
+                        [(value)]="cantidadSeleccionada"
+                      ></dx-number-box>
+                    </div>
+                </div>
+                
+            </div>
+            <br>
+            <div fxLayoutAlign="space-between center" fxFlex="100">
+                <div fxLayoutAlign="start center" fxFlex="50">
+                    <span><strong>Total Factura:</strong> ${{totalFactura | number}}</span>
+                </div>
+                <div fxLayoutAlign="end center" fxFlex="50">
+                    <dx-button text="Agregar" (onClick)="registrar()" icon="plus" type="success" [disabled]="cantidadSeleccionada<=0 || BlockCantidad"></dx-button>
+                </div>
+            </div>
+            <br>
+            <hr style="width: 100%; ">
+            <div fxLayoutAlign="center center" fxFlex="100">
+                <span><strong>DETALLE FACTURA</strong></span>
+            </div>
+            <hr style="width: 100%; ">
+            <br>
+            <div fxLayout="row" fxLayoutAlign="center center" FxFlex="100">
+            <dx-data-grid class="dx-card wide-card" [dataSource]="detalleFactura" [columnAutoWidth]="true" [columnHidingEnabled]="true">
+               
+                <dxi-column 
+                    dataField="cantidad">
+                </dxi-column>
+    
+                <dxi-column 
+                    dataField="nombre" 
+                    caption="Descripción">
+                </dxi-column>
+    
+                <dxi-column
+                    dataField="precio"
+                    caption="Valor Unitario"
+                    dataType="number"
+                    format="currency">
+                </dxi-column>
+    
+                <dxi-column
+                    dataField="valorTotal"
+                    caption="Valor Total"
+                    dataType="number"
+                    format="currency">
+                </dxi-column>
+    
+        
+                <dxi-column dataField="Acciones" type="buttons" >
+                    <dxi-button id="deleteButton" icon="trash" [onClick]="dxiDelete"></dxi-button>
+                  </dxi-column>
+    
+    
+               </dx-data-grid>
+            </div>
+        </div>
+    </div>
+
+    <app-popup-select-cliente 
+        [isPopupVisible]="isPopupVisible"
+        [dataFactura]="encabezado"
+        *ngIf="encabezado"
+        (salida)="ouputActualizacion($event)">
+    </app-popup-select-cliente>
+
+</div>
+
+
+
