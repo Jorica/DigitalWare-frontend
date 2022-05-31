@@ -1,3 +1,9 @@
+# Configuracion del Proyecto
+
+1) Ejecutar Comando `npm install` para instalar dependencias
+2) Configurar la url del backend en los archivos `environments` en la ruta `src\environments`
+
+
 # DigitalWareFrontend
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.4.
